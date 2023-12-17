@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	solutions.DayOnePartOne()
-	solutions.DayOnePartTwo()
+	solutions.TrebuchetPartOne()
+	solutions.TrebuchetPartTwo()
 }

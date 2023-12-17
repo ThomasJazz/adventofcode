@@ -23,7 +23,7 @@ var (
 	}
 )
 
-func DayOnePartOne() {
+func TrebuchetPartOne() {
 	lines := lib.ReadInput(filename)
 
 	var calibrationSum int = 0
@@ -35,7 +35,7 @@ func DayOnePartOne() {
 	println(calibrationSum)
 }
 
-func DayOnePartTwo() {
+func TrebuchetPartTwo() {
 	lines := lib.ReadInput(filename)
 
 	var calibrationSum int = 0
