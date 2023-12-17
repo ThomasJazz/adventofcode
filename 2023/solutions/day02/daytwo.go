@@ -1,3 +1,4 @@
+// https://adventofcode.com/2023/day/2
 package day02
 
 import (
@@ -37,9 +38,26 @@ func ParseGame(game string) []map[string]int {
 	return gameMap
 }
 
+func GetMinimumColorPower(game []map[string]int) int {
+	var (
+		minRed   = 0
+		minBlue  = 0
+		minGreen = 0
+	)
+
+	for _, round := range game {
+		minRed = max(minRed, round["red"])
+		minBlue = max(minBlue, round["blue"])
+		minGreen = max(minGreen, round["green"])
+	}
+
+	return minBlue * minRed * minGreen
+}
+
 func CubeConundrum() {
 	lines := lib.ReadInput(filepath)
 	gameIndexSum := 0
+	minPowerSum := 0
 
 	for i, line := range lines {
 		gameStr := strings.Split(line, ":")[1]
@@ -55,7 +73,10 @@ func CubeConundrum() {
 		if validGame {
 			gameIndexSum += (i + 1)
 		}
+
+		minPowerSum += GetMinimumColorPower(game)
 	}
 
-	println(gameIndexSum)
+	println("Game index sum: %d", gameIndexSum)
+	println("Minimum power sum: %d", minPowerSum)
 }
