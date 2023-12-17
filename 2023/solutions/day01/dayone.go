@@ -2,15 +2,14 @@
 package day01
 
 import (
-	"bufio"
-	"log"
-	"os"
 	"strconv"
 	"strings"
+
+	"github.com/thomasjazz/adventofcode/lib"
 )
 
 var (
-	filename string         = "input/2023_day_1_input.txt"
+	filename string         = "2023/input/day_1_input.txt"
 	alphaMap map[string]int = map[string]int{
 		"one":   1,
 		"two":   2,
@@ -25,7 +24,7 @@ var (
 )
 
 func DayOnePartOne() {
-	lines := ReadInput()
+	lines := lib.ReadInput(filename)
 
 	var calibrationSum int = 0
 
@@ -37,7 +36,7 @@ func DayOnePartOne() {
 }
 
 func DayOnePartTwo() {
-	lines := ReadInput()
+	lines := lib.ReadInput(filename)
 
 	var calibrationSum int = 0
 
@@ -48,23 +47,6 @@ func DayOnePartTwo() {
 	}
 
 	println(calibrationSum)
-}
-
-func ReadInput() []string {
-	var lines []string
-	file, err := os.Open(filename)
-
-	if err != nil {
-		log.Fatal("Error reading file")
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-
-	return lines
 }
 
 func FindCalibrationNumbers(line string) int {
