@@ -1,4 +1,4 @@
-package solutions
+package day01
 
 import (
 	"testing"

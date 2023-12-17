@@ -1,5 +1,5 @@
 // https://adventofcode.com/2023/day/1
-package solutions
+package day01
 
 import (
 	"bufio"
