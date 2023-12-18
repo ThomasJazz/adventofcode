@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	filename string         = "2023/input/day_1_input.txt"
+	filename string         = "../../input/day_1_input.txt"
 	alphaMap map[string]int = map[string]int{
 		"one":   1,
 		"two":   2,
