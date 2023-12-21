@@ -5,5 +5,6 @@ import (
 )
 
 func TestGearRatios(t *testing.T) {
-	GearRatios()
+	//GearRatios()
+	Copied()
 }

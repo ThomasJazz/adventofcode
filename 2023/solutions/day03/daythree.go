@@ -1,6 +1,8 @@
+// This solution is probably pretty bad cuz im just learning go
 package day03
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
@@ -9,9 +11,9 @@ import (
 )
 
 var (
-	filepath string = "../../input/day_3_input.txt"
-	symbols  string = "*&/%=#-+$@"
-	numbers  string = "0123456789"
+	filepath   string = "../../input/day_3_input.txt"
+	symbols    string = "*&/%=#-+$@"
+	gearSymbol string = "*"
 )
 
 func GetCoordinate(row int, col int) string {
@@ -29,10 +31,6 @@ func GetAdjacent(row int, col int) map[string]bool {
 	}
 
 	return adjacent
-}
-
-func IsSymbolAdjacent(adjacentSquares [][]string) bool {
-	return false
 }
 
 func MarkAllSymbolPerimiters(input []string) map[string]bool {
@@ -55,11 +53,8 @@ func MarkAllSymbolPerimiters(input []string) map[string]bool {
 	return adjacentSquares
 }
 
-func GearRatios() {
+func PartOne(input []string) {
 	partSum := 0
-	// TODO: Scan the input for all symbols and add adjacent coordinates to
-	// the map
-	input := lib.ReadInput(filepath)
 	adjacentSquares := MarkAllSymbolPerimiters(input)
 	currNum := -1
 	numberIsAdjacent := false
@@ -95,5 +90,25 @@ func GearRatios() {
 	}
 
 	println(partSum)
-	println()
+}
+
+func PartTwo(input []string) {
+	test := regexp.MustCompile(symbols)
+
+	for _, v := range input {
+		matches := test.FindAllStringSubmatchIndex(v, -1)
+
+		for _, val := range matches {
+			print(val)
+		}
+	}
+
+}
+
+func GearRatios() {
+	// TODO: Scan the input for all symbols and add adjacent coordinates to
+	// the map
+	input := lib.ReadInput(filepath)
+	PartOne(input)
+	PartTwo(input)
 }
