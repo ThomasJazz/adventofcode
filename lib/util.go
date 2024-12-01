@@ -22,3 +22,10 @@ func ReadInput(filepath string) []string {
 
 	return lines
 }
+
+func AbsDiffInt(x int, y int) int {
+	if x < y {
+		return y - x
+	}
+	return x - y
+}
