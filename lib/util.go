@@ -29,3 +29,7 @@ func AbsDiffInt(x int, y int) int {
 	}
 	return x - y
 }
+
+func RemoveIndex(s []int, i int) []int {
+	return append(s[:i], s[i+1:]...)
+}

@@ -33,32 +33,14 @@ func PartOne() int {
 
 	for _, line := range lines {
 		levels := strings.Split(line, " ")
+		intLevels := make([]int, len(levels))
 
-		if len(levels) == 1 {
-			safeLines++
-			continue
+		for i, level := range levels {
+			intLevel, _ := strconv.Atoi(level)
+			intLevels[i] = intLevel
 		}
 
-		ordering := -1 // 0 will be decreasing, 1 will be increasing
-		matchesCriteria := true
-
-		// Work through the line and check if it matches criteria
-		for i := 1; i < len(levels); i++ {
-			prevNum, _ := strconv.Atoi(levels[i-1])
-			num, _ := strconv.Atoi(levels[i])
-
-			// Set max and min
-			info := getLevelInfo(LevelInput{PrevNum: prevNum, CurrNum: num, Order: ordering})
-			matchesCriteria = evaluateLevelInfo(ordering, info)
-
-			if !matchesCriteria {
-				break
-			}
-
-			ordering = info.Order
-		}
-
-		if matchesCriteria {
+		if CheckLine(intLevels) {
 			safeLines++
 		}
 	}
@@ -71,48 +53,58 @@ func PartTwo() int {
 	safeLines := 0
 
 	for _, line := range lines {
-		levelsRemoved := 0
 		levels := strings.Split(line, " ")
+		intLevels := make([]int, len(levels))
 
-		if len(levels) == 1 {
-			safeLines++
-			continue
+		for i, level := range levels {
+			intLevel, _ := strconv.Atoi(level)
+			intLevels[i] = intLevel
 		}
 
-		ordering := -1
-		matchesCriteria := true
-		skipLast := 0
-
-		for i := 1; i < len(levels); i++ {
-			// If we've made it this far without removing a level, we are good to go
-			if i == len(levels)-1 && levelsRemoved == 0 {
-				break
-			}
-
-			lastNum, _ := strconv.Atoi(levels[i-(1+skipLast)])
-			currNum, _ := strconv.Atoi(levels[i])
-
-			info := getLevelInfo(LevelInput{PrevNum: lastNum, CurrNum: currNum, Order: ordering})
-			matchesCriteria = evaluateLevelInfo(ordering, info)
-
-			if !matchesCriteria {
-				if levelsRemoved > 0 {
-					break
-				}
-				levelsRemoved, skipLast = 1, 1
-				matchesCriteria = true
-			} else {
-				skipLast = 0
-				ordering = info.Order
-			}
-		}
-
-		if matchesCriteria {
+		if CheckLine(intLevels) || ApplyDampener(intLevels) {
 			safeLines++
 		}
 	}
 
 	return safeLines
+}
+
+func ApplyDampener(levels []int) bool {
+	for i := 0; i < len(levels); i++ {
+		levelsCopy := make([]int, len(levels))
+		copy(levelsCopy, levels)
+		levelsCopy = lib.RemoveIndex(levelsCopy, i)
+
+		if CheckLine(levelsCopy) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func CheckLine(levels []int) bool {
+	if len(levels) == 1 {
+		return true
+	}
+
+	ordering := -1 // 0 will be decreasing, 1 will be increasing
+	matchesCriteria := true
+
+	// Work through the line and check if it matches criteria
+	for i := 1; i < len(levels); i++ {
+		// Set max and min
+		info := getLevelInfo(LevelInput{PrevNum: levels[i-1], CurrNum: levels[i], Order: ordering})
+		matchesCriteria = evaluateLevelInfo(ordering, info)
+
+		if !matchesCriteria {
+			return false
+		}
+
+		ordering = info.Order
+	}
+
+	return matchesCriteria
 }
 
 func getLevelInfo(input LevelInput) LevelInfo {
