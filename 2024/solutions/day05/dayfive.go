@@ -15,14 +15,52 @@ var (
 func PartOne() int {
 	rules := lib.ReadInput(filename1)
 	pageUpdates := lib.ReadInput(filename2)
-	middleSum := 0
 
 	// Each key must go before any of the values in the page update sequence
 	rulesMap := getRulesMap(rules)
 	pageUpdateSequences := getPageUpdateSequences(pageUpdates)
 
 	correctSequences := getCorrectSequences(pageUpdateSequences, rulesMap)
-	for _, sequence := range correctSequences {
+	return getMiddleSum(correctSequences)
+}
+
+func PartTwo() int {
+	rules := lib.ReadInput(filename1)
+	pageUpdates := lib.ReadInput(filename2)
+
+	// Each key must go before any of the values in the page update sequence
+	rulesMap := getRulesMap(rules)
+	pageUpdateSequences := getPageUpdateSequences(pageUpdates)
+
+	incorrectSequences := getIncorrectSequences(pageUpdateSequences, rulesMap)
+	correctedSequences := orderIncorrectSequences(incorrectSequences, rulesMap)
+	correctSequences := getCorrectSequences(correctedSequences, rulesMap)
+	print(len(correctSequences))
+
+	return getMiddleSum(correctedSequences)
+}
+
+func orderIncorrectSequences(sequences [][]string, rulesMap map[string]map[string]struct{}) [][]string {
+	for _, sequence := range sequences {
+		for i := len(sequence) - 1; i >= 0; i-- {
+			for j := i - 1; j >= 0; j-- {
+				if _, ok := rulesMap[sequence[i]][sequence[j]]; ok {
+					// swap the two elements then restart the loop
+					sequence[i], sequence[j] = sequence[j], sequence[i]
+					i = len(sequence) - 1
+					j = i - 1
+				}
+			}
+		}
+
+	}
+
+	return sequences
+}
+
+func getMiddleSum(sequences [][]string) int {
+	middleSum := 0
+	for _, sequence := range sequences {
 		middleIndex := len(sequence) / 2
 		middleNum, _ := strconv.Atoi(sequence[middleIndex])
 
@@ -81,4 +119,28 @@ func getCorrectSequences(sequences [][]string, rulesMap map[string]map[string]st
 	}
 
 	return correctSequences
+}
+
+// getIncorrectSequences returns a slice of sequences that do not satisfy the rules
+func getIncorrectSequences(sequences [][]string, rulesMap map[string]map[string]struct{}) [][]string {
+	incorrectSequences := make([][]string, 0)
+	for _, updateSequence := range sequences {
+		addSequence := false
+
+	sequenceLoop:
+		for i := len(updateSequence) - 1; i >= 0; i-- {
+			for j := i - 1; j >= 0; j-- {
+				if _, ok := rulesMap[updateSequence[i]][updateSequence[j]]; ok {
+					addSequence = true
+					break sequenceLoop
+				}
+			}
+		}
+
+		if addSequence {
+			incorrectSequences = append(incorrectSequences, updateSequence)
+		}
+	}
+
+	return incorrectSequences
 }
