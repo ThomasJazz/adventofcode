@@ -37,40 +37,21 @@ func PartOne() int {
 // Scan for do() and don't(). Only include mul() values after do() and before don't()
 func PartTwo() int {
 	lines := lib.ReadInput(filename)
+	concatenatedString := strings.Join(lines, "\n")
+	println(concatenatedString)
 	totalMultiplied := 0
-	dontMultiplied := 0
-	//doEnabled := true
+	mulValues := []string{}
 
-	regexp := regexp.MustCompile(regexpMul)
+	regexp := regexp.MustCompile(`(?s)(?:^|do\(\))(?:(!don't).)*?(mul\(\d+,\d+\))`)
+	matches := regexp.FindAllStringSubmatch(concatenatedString, -1)
 
-	for _, line := range lines {
-		doArr := strings.Split(line, "do()")
-
-		for _, doLine := range doArr {
-			excludeDont := strings.Split(doLine, "don't()")
-
-			for _, dontLine := range excludeDont {
-				matches := regexp.FindAllStringSubmatch(dontLine, -1)
-
-				for _, match := range matches {
-					leftNum, _ := strconv.Atoi(match[1])
-					rightNum, _ := strconv.Atoi(match[2])
-
-					dontMultiplied += leftNum * rightNum
-				}
-			}
-
-			totalMatches := regexp.FindAllStringSubmatch(doLine, -1)
-
-			for _, match := range totalMatches {
-				leftNum, _ := strconv.Atoi(match[1])
-				rightNum, _ := strconv.Atoi(match[2])
-
-				totalMultiplied += leftNum * rightNum
-			}
+	for _, match := range matches {
+		for _, m := range match {
+			cleanedVal := strings.Replace(m, "do()", "", -1)
+			println(cleanedVal)
+			mulValues = append(mulValues, cleanedVal)
 		}
-
 	}
 
-	return totalMultiplied - dontMultiplied
+	return totalMultiplied
 }
