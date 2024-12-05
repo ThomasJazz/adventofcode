@@ -38,18 +38,22 @@ func PartOne() int {
 func PartTwo() int {
 	lines := lib.ReadInput(filename)
 	concatenatedString := strings.Join(lines, "\n")
-	println(concatenatedString)
 	totalMultiplied := 0
-	mulValues := []string{}
 
-	regexp := regexp.MustCompile(`(?s)(?:^|do\(\))(?:(!don't).)*?(mul\(\d+,\d+\))`)
-	matches := regexp.FindAllStringSubmatch(concatenatedString, -1)
+	regexp := regexp.MustCompile(regexpMul)
 
-	for _, match := range matches {
-		for _, m := range match {
-			cleanedVal := strings.Replace(m, "do()", "", -1)
-			println(cleanedVal)
-			mulValues = append(mulValues, cleanedVal)
+	parts := strings.Split(concatenatedString, "do()")
+	for _, part := range parts {
+		dontParts := strings.Split(part, "don't()")
+
+		// Only multiply the mul() values between do() and don't()
+		usePart := dontParts[0]
+		matches := regexp.FindAllStringSubmatch(usePart, -1)
+
+		for _, match := range matches {
+			leftNum, _ := strconv.Atoi(match[1])
+			rightNum, _ := strconv.Atoi(match[2])
+			totalMultiplied += leftNum * rightNum
 		}
 	}
 
