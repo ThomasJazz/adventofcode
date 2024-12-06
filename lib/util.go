@@ -1,3 +1,4 @@
+// Common utility functions
 package lib
 
 import (
