@@ -25,6 +25,7 @@ func PartOne() int {
 	return totalXmas
 }
 
+// Look for XMAS in all directions
 func ScanForXmas(lines []string, row int, col int) int {
 	xmasFound := 0
 	maxRows := len(lines)
@@ -91,6 +92,10 @@ func PartTwo() int {
 	return totalXmas
 }
 
+// Look for pattern that looks like this (can be rotated):
+// S.S
+// .A.
+// M.M
 func ScanForMasMas(lines []string, row int, col int) int {
 	// S's on top left and top right, M's on bottom left and bottom right
 	if lines[row-1][col-1] == 'S' && lines[row-1][col+1] == 'S' && lines[row+1][col-1] == 'M' && lines[row+1][col+1] == 'M' {
