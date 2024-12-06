@@ -1,3 +1,4 @@
+// Day 1: Historian Hysteria
 package day01
 
 import (

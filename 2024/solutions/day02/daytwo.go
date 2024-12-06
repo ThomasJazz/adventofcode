@@ -1,3 +1,4 @@
+// Day 2: Red-Nosed Reports
 package day02
 
 import (

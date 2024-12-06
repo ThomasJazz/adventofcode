@@ -1,3 +1,4 @@
+// Day 5: Print Queue
 package day05
 
 import (
@@ -34,8 +35,6 @@ func PartTwo() int {
 
 	incorrectSequences := getIncorrectSequences(pageUpdateSequences, rulesMap)
 	correctedSequences := orderIncorrectSequences(incorrectSequences, rulesMap)
-	correctSequences := getCorrectSequences(correctedSequences, rulesMap)
-	print(len(correctSequences))
 
 	return getMiddleSum(correctedSequences)
 }
@@ -52,7 +51,6 @@ func orderIncorrectSequences(sequences [][]string, rulesMap map[string]map[strin
 				}
 			}
 		}
-
 	}
 
 	return sequences

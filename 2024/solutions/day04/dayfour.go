@@ -1,3 +1,4 @@
+// Day 4: Ceres Search
 package day04
 
 import (
