@@ -5,7 +5,7 @@ import (
 )
 
 func TestPartOne(t *testing.T) {
-	expected := 0
+	expected := 4789
 	actual := PartOne()
 	if actual != expected {
 		t.Errorf("Expected %d but was %d", expected, actual)
