@@ -13,14 +13,14 @@ var (
 )
 
 type Equation struct {
-	target int
-	args   []int
+	target uint64
+	args   []uint64
 }
 
-func PartOne() int {
+func PartOne() uint64 {
 	lines := lib.ReadInput(filename)
 	equations, _ := ParseEquations(lines)
-	calibrationSum := 0
+	var calibrationSum uint64 = 0
 
 	for _, equation := range equations {
 		result := evaluateEquation(equation, 0, 0)
@@ -31,7 +31,21 @@ func PartOne() int {
 	return calibrationSum
 }
 
-func evaluateEquation(eq Equation, index int, currentValue int) bool {
+func PartTwo() uint64 {
+	lines := lib.ReadInput(filename)
+	equations, _ := ParseEquations(lines)
+	var calibrationSum uint64 = 0
+
+	for _, equation := range equations {
+		result := evaluateEquation2(equation, 0, 0)
+		if result {
+			calibrationSum += equation.target
+		}
+	}
+	return calibrationSum
+}
+
+func evaluateEquation(eq Equation, index int, currentValue uint64) bool {
 	if index == len(eq.args) {
 		return currentValue == eq.target
 	}
@@ -39,16 +53,34 @@ func evaluateEquation(eq Equation, index int, currentValue int) bool {
 	return evaluateEquation(eq, index+1, currentValue+eq.args[index]) || evaluateEquation(eq, index+1, currentValue*eq.args[index])
 }
 
+func evaluateEquation2(eq Equation, index int, currentValue uint64) bool {
+	if index == len(eq.args) {
+		return currentValue == eq.target
+	}
+
+	//concatenatedValue, _ := strconv.Atoi(strconv.Itoa(eq.args[index]) + strconv.Itoa(eq.args[index+1]))
+	concatenatedValue := concatValue(currentValue, eq.args[index])
+
+	return evaluateEquation2(eq, index+1, currentValue+eq.args[index]) ||
+		evaluateEquation2(eq, index+1, currentValue*eq.args[index]) ||
+		evaluateEquation2(eq, index+1, concatenatedValue)
+}
+
+func concatValue(a uint64, b uint64) uint64 {
+	concatenatedValue, _ := strconv.ParseUint(strconv.Itoa(int(a))+strconv.Itoa(int(b)), 10, 64)
+	return concatenatedValue
+}
+
 func ParseEquations(lines []string) ([]Equation, error) {
 	equations := make([]Equation, 0)
 	for _, line := range lines {
 		parts := strings.Split(line, ":")
 		argStrings := strings.Split(parts[1], " ")[1:]
-		target, _ := strconv.Atoi(parts[0])
+		target, _ := strconv.ParseUint(parts[0], 10, 64)
 
-		args := make([]int, 0)
+		args := make([]uint64, 0)
 		for _, argStr := range argStrings {
-			arg, _ := strconv.Atoi(argStr)
+			arg, _ := strconv.ParseUint(argStr, 10, 64)
 			args = append(args, arg)
 		}
 
