@@ -43,7 +43,7 @@ var (
 )
 
 func PartOne() {
-    fmt.Println("Day $day solution pt 2")
+    fmt.Println("Day $day solution pt 1")
 }
 
 func PartTwo() {
