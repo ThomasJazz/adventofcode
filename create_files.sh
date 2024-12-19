@@ -36,6 +36,7 @@ package day$day
 
 import (
     "fmt"
+    "github.com/thomasjazz/adventofcode/lib"
 )
 
 var (
@@ -44,10 +45,12 @@ var (
 
 func PartOne() {
     fmt.Println("Day $day solution pt 1")
+    lines := lib.ReadInput(filename)
 }
 
 func PartTwo() {
     fmt.Println("Day $day solution pt 2")
+    lines := lib.ReadInput(filename)
 }
 EOL
 

@@ -3,6 +3,7 @@ package lib
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 )
@@ -33,4 +34,32 @@ func AbsDiffInt(x int, y int) int {
 
 func RemoveIndex(s []int, i int) []int {
 	return append(s[:i], s[i+1:]...)
+}
+
+type Coordinate struct {
+	Row int
+	Col int
+}
+
+func PrintLines(lines []string) {
+	for i := 0; i < len(lines); i++ {
+		fmt.Println(lines[i])
+	}
+}
+
+func ConvertListToRunes(lines []string) [][]rune {
+	var grid [][]rune
+	for i := 0; i < len(lines); i++ {
+		grid = append(grid, []rune(lines[i]))
+	}
+	return grid
+}
+
+func PrintGrid(grid [][]rune) {
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid[i]); j++ {
+			print(string(grid[i][j]))
+		}
+		println()
+	}
 }
