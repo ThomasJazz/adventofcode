@@ -1,5 +1,6 @@
 # parse args and create files and directories based on the args
 # I am no bash god, this was all AI generated lol
+# How to run: bash create_files.sh -y 2024 -d 5
 
 POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
