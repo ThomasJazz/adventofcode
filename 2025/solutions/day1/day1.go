@@ -35,10 +35,6 @@ func PartOne() int {
 			position = (position + instruction.clicks) % 100
 		}
 
-		if position < 0 {
-			position += 100
-		}
-
 		if position == 0 {
 			timesHitZero++
 		}
@@ -55,7 +51,6 @@ func PartTwo() int {
 	position := 50
 
 	for _, line := range lines {
-		println(position)
 		instruction := ParseInstruction(line)
 		rawPosition := position
 
@@ -68,26 +63,24 @@ func PartTwo() int {
 		switch instruction.direction {
 		case "L":
 			rawPosition = (position - instruction.clicks)
-			position = rawPosition % 100
 		case "R":
 			rawPosition = (position + instruction.clicks)
-			position = rawPosition % 100
 		}
+
+		position = rawPosition % 100
 
 		// Always want a positive position
 		if position < 0 {
 			position += 100
 		}
 
-		timesHitZeroThisTime := int(math.Abs(float64(rawPosition)) / 100)
+		timesHitZero += int(math.Abs(float64(rawPosition)) / 100)
 
-		if rawPosition <= 0 && !startedAtZero {
-			timesHitZeroThisTime++
+		if !startedAtZero && rawPosition <= 0 {
+			timesHitZero++
 		}
 
-		timesHitZero += timesHitZeroThisTime
-
-		println("\t", line, rawPosition, timesHitZeroThisTime, timesHitZero)
+		println("\t", line, rawPosition, timesHitZero)
 	}
 
 	return timesHitZero
