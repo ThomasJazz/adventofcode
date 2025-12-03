@@ -1,6 +1,6 @@
 # parse args and create files and directories based on the args
 # I am no bash god, this was all AI generated lol
-# How to run: bash create_files.sh -y 2024 -d 5
+# How to run: ./create_files.sh -y 2024 -d 5
 
 POSITIONAL_ARGS=()
 while [[ $# -gt 0 ]]; do
@@ -41,7 +41,7 @@ import (
 )
 
 var (
-    filename = "../../input/input-day${day}.txt"
+    filename = "input-day${day}.txt"
 )
 
 func PartOne() {
@@ -71,9 +71,6 @@ func TestPartTwo(t *testing.T) {
 }
 EOL
 
-input_path="$(pwd)/$year/input"
-mkdir -p "$input_path"
-touch "$input_path/input-day$day.txt"
+touch "$dir_path/input-day$day.txt"
 
-echo "Created $dir_path/day$day.go and $dir_path/day$day_test.go and $input_path/input-day$day.txt" 
-
+echo "Created $dir_path/day$day.go and $dir_path/day$day_test.go and $dir_path/input-day$day.txt"
