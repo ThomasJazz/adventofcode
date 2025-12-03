@@ -64,10 +64,12 @@ import (
 
 func TestPartOne(t *testing.T) {
     // Add tests here
+    PartOne()
 }
 
 func TestPartTwo(t *testing.T) {
     // Add tests here
+    PartTwo()
 }
 EOL
 

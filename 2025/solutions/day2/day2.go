@@ -55,7 +55,6 @@ func PartTwo() int {
 	idRanges := parseRanges(lines)
 	var invalidNumbers []int
 
-	// I think we need to do sliding window here
 	for _, idRange := range idRanges {
 		for count := idRange.bottom; count <= idRange.top; count++ {
 			numberStr := strconv.Itoa(count)

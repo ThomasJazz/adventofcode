@@ -1,13 +1,16 @@
 package day3
 
 import (
-    "testing"
+	"testing"
 )
 
 func TestPartOne(t *testing.T) {
-    // Add tests here
+	// Add tests here
+	result := PartOne()
+	println(result)
 }
 
 func TestPartTwo(t *testing.T) {
-    // Add tests here
+	// Add tests here
+	PartTwo()
 }
