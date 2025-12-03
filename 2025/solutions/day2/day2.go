@@ -87,6 +87,7 @@ func PartTwo() int {
 
 				if !isValid {
 					invalidNumbers = append(invalidNumbers, count)
+					break
 				}
 			}
 		}
