@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 func ReadInput(filepath string) []string {
@@ -23,6 +24,18 @@ func ReadInput(filepath string) []string {
 	}
 
 	return lines
+}
+
+func ReadInputWithDelimiter(filepath string, delimiter string) []string {
+	file, err := os.ReadFile(filepath)
+
+	if err != nil {
+		log.Fatal("Error reading file")
+	}
+
+	fileContent := string(file)
+
+	return strings.Split(fileContent, delimiter)
 }
 
 func AbsDiffInt(x int, y int) int {
