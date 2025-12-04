@@ -60,11 +60,10 @@ func GetJoltagePtTwo(line string) int64 {
 	var joltage string
 
 	k := 0
-	lineLength := len(line)
 	for i := 0; i < 12; i++ {
 		currentMax := -1
-		currentMaxIndex := 0
-		maxScanIndex := lineLength - (11 - i)
+		currentMaxIndex := -1
+		maxScanIndex := len(line) - (11 - i)
 
 		for k < maxScanIndex {
 			current, _ := strconv.Atoi(string(line[k]))
