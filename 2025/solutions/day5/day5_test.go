@@ -13,17 +13,9 @@ func TestPartOne(t *testing.T) {
 func TestPartTwo(t *testing.T) {
 	// Add tests here
 	result := PartTwo()
-	// 338693411431456
-	println(result) // 348141294422635
+	println(result)
 }
 
-// 3-5
-// 10-14
-// 16-20
-// 12-18
-// ->
-// 3-5
-// 10-20
 func TestCombineRanges(t *testing.T) {
 	// Add tests here
 	// PartTwo()
