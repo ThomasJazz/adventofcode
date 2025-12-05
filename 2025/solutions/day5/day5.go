@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/thomasjazz/adventofcode/lib"
 )
@@ -22,6 +23,7 @@ type IngredientDatabase struct {
 }
 
 func PartOne() int {
+	start := time.Now()
 	fmt.Println("Day 5 solution pt 1")
 	lines := lib.ReadInput(filename)
 	db := processLines(lines)
@@ -40,17 +42,22 @@ func PartOne() int {
 			freshIngredients = append(freshIngredients, ingredient)
 		}
 	}
-
+	fmt.Printf("Finished in %s\n", time.Since(start))
 	return len(freshIngredients)
 }
 
+// 541.875µs
 func PartTwo() int64 {
+	start := time.Now()
 	fmt.Println("Day 5 solution pt 2")
+	// It would obviously be faster to process as we read the file instead of reading into memory then processing
+	// but i kinda like it this way since we dont care about speed that much
 	lines := lib.ReadInput(filename)
 	ranges := processRanges(lines)
 
 	mergedRanges := CombineRanges(ranges)
 
+	fmt.Printf("Finished in %s\n", time.Since(start))
 	return SumRanges(mergedRanges)
 }
 
