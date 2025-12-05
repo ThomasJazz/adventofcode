@@ -49,23 +49,11 @@ func PartTwo() int64 {
 	lines := lib.ReadInput(filename)
 	ranges := processRanges(lines)
 
-	var totalFreshIngredients int64 = 0
 	mergedRanges := CombineRanges(ranges)
 
-	for _, idRange := range mergedRanges {
-		totalFreshIngredients += (idRange.end - idRange.start)
-	}
-
-	return totalFreshIngredients
+	return SumRanges(mergedRanges)
 }
 
-// 3-5
-// 10-14 idRange
-// 16-20
-// 12-18 r
-// ->
-// 3-5
-// 10-20
 func CombineRanges(ranges []IdRange) []IdRange {
 	var mergedRanges []IdRange
 
@@ -77,9 +65,8 @@ func CombineRanges(ranges []IdRange) []IdRange {
 		}
 
 		index := slices.IndexFunc(mergedRanges, func(r IdRange) bool {
-			return (r.start <= idRange.start && r.end >= idRange.start) ||
-				(r.start >= idRange.start && r.end >= idRange.end) ||
-				(r.start >= idRange.start && r.end <= idRange.end)
+			return (r.start >= idRange.start && r.start <= idRange.end) || (r.end >= idRange.start && r.end <= idRange.end) ||
+				(idRange.start >= r.start && idRange.start <= r.end) || (idRange.end >= r.start && idRange.end <= r.end)
 		})
 
 		if index == -1 {
@@ -99,6 +86,14 @@ func CombineRanges(ranges []IdRange) []IdRange {
 	} else {
 		return mergedRanges
 	}
+}
+
+func SumRanges(ranges []IdRange) int64 {
+	var total int64 = 0
+	for _, r := range ranges {
+		total += (r.end - r.start + 1)
+	}
+	return total
 }
 
 func processLines(lines []string) IngredientDatabase {
