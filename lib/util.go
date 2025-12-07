@@ -27,6 +27,16 @@ func ReadInput(filepath string) []string {
 	return lines
 }
 
+func ReadInputToString(filepath string) string {
+	file, err := os.ReadFile(filepath)
+
+	if err != nil {
+		log.Fatal("Error reading file")
+	}
+
+	return string(file)
+}
+
 func ReadInputWithDelimiter(filepath string, delimiter string) []string {
 	file, err := os.ReadFile(filepath)
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/thomasjazz/adventofcode/lib"
@@ -49,18 +50,63 @@ func PartOne() int {
 	return total
 }
 
-func PartTwo() int {
+// May want to re-parse entirely?
+func PartTwo() int64 {
 	fmt.Println("Day 6 solution pt 2")
 	lines := lib.ReadInput(filename)
 	start := time.Now()
-	problems := getProblemsMap(lines)
 
-	total := 0
+	var total int64 = 0
+	operandIndex := 0
+	nextOperandIndex := -1
+	currentOperand := ""
+	i := 0
+	for i < len(lines[4]) {
+		currentBottomChar := string(lines[4][i])
 
-	for _, problem := range problems {
-		fmt.Println(problem.nums)
+		// Get the range we want to calculate over
+		if currentBottomChar == "*" || currentBottomChar == "+" {
+			operandIndex = i
+			currentOperand = currentBottomChar
 
-		print(problem.operand)
+			// find next operand
+			for k := i + 1; k < len(lines[4]); k++ {
+				if string(lines[4][k]) == "*" || string(lines[4][k]) == "+" {
+					nextOperandIndex = k
+					break
+				} else if k == len(lines[4])-1 {
+					nextOperandIndex = k + 2
+					break
+				}
+			}
+		}
+
+		// Parse and calculate
+		var calculated int
+
+		if currentOperand == "*" {
+			calculated = 1
+		} else {
+			calculated = 0
+		}
+
+		for column := nextOperandIndex - 2; column >= operandIndex; column-- {
+			numString := ""
+			for row := 0; row < 4; row++ {
+				numString += string(lines[row][column])
+			}
+			num, _ := strconv.Atoi(strings.Replace(numString, " ", "", -1))
+
+			if currentOperand == "*" {
+				calculated *= num
+			} else {
+				calculated += num
+			}
+		}
+
+		total += int64(calculated)
+
+		i = nextOperandIndex
 	}
 
 	fmt.Printf("Finished in %s\n", time.Since(start))
