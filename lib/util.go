@@ -122,3 +122,20 @@ func StringToInt64(s string) int64 {
 	val, _ := strconv.ParseInt(s, 10, 64)
 	return val
 }
+
+func ReadLinesToGrid(lines []string) [][]Tile {
+	var grid [][]Tile
+	for i := 0; i < len(lines); i++ {
+		var row []Tile
+		for j := 0; j < len(lines[i]); j++ {
+			tile := Tile{
+				Row:    i,
+				Column: j,
+				Value:  string(lines[i][j]),
+			}
+			row = append(row, tile)
+		}
+		grid = append(grid, row)
+	}
+	return grid
+}
